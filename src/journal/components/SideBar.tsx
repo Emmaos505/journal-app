@@ -1,5 +1,7 @@
 import { TurnedInNot } from "@mui/icons-material";
 import { Box, Divider, Drawer, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material"
+import { useSelector } from "react-redux";
+import { AppStore } from "../../store";
 
 interface Props {
     drawerWidth?: number;
@@ -21,6 +23,9 @@ const months = [
 ]
 
 export const SideBar = ({ drawerWidth = 240 }: Props) => {
+
+    const { displayName } = useSelector((state: AppStore) => state.auth);
+
     return (
         <Box
             component='nav'
@@ -36,7 +41,7 @@ export const SideBar = ({ drawerWidth = 240 }: Props) => {
             >
                 <Toolbar>
                     <Typography variant="h6" noWrap component='div'>
-                        Emmanuel Otero
+                        {displayName}
                     </Typography>
                 </Toolbar>
                 <Divider />
