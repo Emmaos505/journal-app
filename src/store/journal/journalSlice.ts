@@ -8,16 +8,16 @@ interface JournalState {
     active: Note | null;
 }
 
-interface Note {
-    id: string;
+export interface Note {
+    id?: string;
     title: string;
     body: string;
-    date: string;
-    imageUrls: string[]
+    date: number;
+    imageUrls?: string[]
 }
 
 const initialState: JournalState = {
-    isSaving: true,
+    isSaving: false,
     messageSaved: '',
     notes: [],
     active: null
@@ -27,14 +27,21 @@ export const journalSlice = createSlice({
     name: 'journal',
     initialState,
     reducers: {
+        savingNewNote: (state) => {
+            state.isSaving = true
+        },
         addNewEmptyNote: (state, action) => {
-
+            return {
+                ...state,
+                notes: [...state.notes, action.payload],
+                isSaving: false
+            }
         },
-        setActiveNote: (state, action) => {
-
+        setActiveNote: (state, { payload }) => {
+            state.active = payload
         },
-        setNotes: (state, action) => {
-
+        setNotes: (state, { payload }) => {
+            state.notes = payload
         },
         setSaving: (state, action) => {
 
@@ -51,9 +58,10 @@ export const journalSlice = createSlice({
 export const journalReducer = journalSlice.reducer;
 export const {
     addNewEmptyNote,
+    deleteNoteById,
+    savingNewNote,
     setActiveNote,
     setNotes,
     setSaving,
     updateNote,
-    deleteNoteById
 } = journalSlice.actions;
